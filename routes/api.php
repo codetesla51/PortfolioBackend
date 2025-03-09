@@ -1,18 +1,29 @@
 <?php
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\AdminController;
+use App\Http\Middleware\AdminAuthMiddleware;
 
-// API Routes for Projects
-Route::get("/projects", [ProjectController::class, "index"]); // List all projects
-Route::post("/projects", [ProjectController::class, "store"]); // Create a project
-Route::get("/projects/{slug}", [ProjectController::class, "show"]); // Get project by slug
-Route::put("/projects/{slug}", [ProjectController::class, "update"]); // Update project
-Route::delete("/projects/{slug}", [ProjectController::class, "destroy"]); // Delete project
-Route::prefix("contacts")->group(function () {
-  Route::post("/", [ContactController::class, "store"]); // Create a new contact
-  Route::get("/", [ContactController::class, "index"]); // Get all contacts
-  Route::get("/{id}", [ContactController::class, "show"]); // Get a single contact
-  Route::delete("/{id}", [ContactController::class, "destroy"]); // Delete a contact
+// Public routes for projects
+Route::get("/projects", [ProjectController::class, "index"]);
+Route::get("/projects/{slug}", [ProjectController::class, "show"]);
+
+// Protected routes for projects (POST, PUT, DELETE)
+Route::middleware([AdminAuthMiddleware::class])->group(function () {
+    Route::post("/projects", [ProjectController::class, "store"]);
+    Route::put("/projects/{slug}", [ProjectController::class, "update"]);
+    Route::delete("/projects/{slug}", [ProjectController::class, "destroy"]);
 });
+
+// Contact routes
+Route::post("/contacts", [ContactController::class, "store"]); // Public
+Route::middleware([AdminAuthMiddleware::class])->group(function () {
+    Route::get("/contacts", [ContactController::class, "index"]);
+    Route::get("/contacts/{id}", [ContactController::class, "show"]);
+    Route::delete("/contacts/{id}", [ContactController::class, "destroy"]);
+});
+
+// Admin authentication routes
+Route::post("/admin/login", [AdminController::class, "login"]);
+Route::post("/admin/logout", [AdminController::class, "logout"])->middleware(AdminAuthMiddleware::class);
