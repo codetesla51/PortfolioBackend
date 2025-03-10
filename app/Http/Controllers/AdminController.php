@@ -15,7 +15,7 @@ class AdminController extends Controller
     ]);
 
     if ($request->admin_key !== env("ADMIN_KEY")) {
-      return response()->json(["message" => "nauthorized"], 401);
+      return response()->json(["message" => "Unauthorized"], 401);
     }
 
     $token = Str::random(80);
