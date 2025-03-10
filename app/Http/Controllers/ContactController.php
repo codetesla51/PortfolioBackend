@@ -54,6 +54,20 @@ class ContactController extends Controller
     }
 
     /**
+     * Mark a contact inquiry as read.
+     */
+    public function update($id)
+    {
+        $contact = Contact::findOrFail($id);
+        $contact->update(['is_read' => true]);
+
+        return response()->json([
+            'message' => 'Contact marked as read',
+            'data' => $contact
+        ]);
+    }
+
+    /**
      * Delete a contact inquiry.
      */
     public function destroy($id)
