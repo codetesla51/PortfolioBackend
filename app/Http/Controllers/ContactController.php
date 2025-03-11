@@ -82,14 +82,4 @@ class ContactController extends Controller
       "message" => "Contact deleted successfully",
     ]);
   }
-public function update(Request $request, $id)
-{
-  $contact = Contact::findOrFail($id);
-  $contact->update($request->only(['is_read']));
-
-  return response()->json([
-    "message" => "Contact updated successfully",
-    "data" => $contact,
-  ]);
-}
 }
