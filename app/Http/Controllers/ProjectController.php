@@ -18,7 +18,11 @@ class ProjectController extends Controller
 
     return response()->json($projects);
   }
-
+  public function adminIndex()
+  {
+    $projects = Project::latest->get();
+    return response()->json($projects);
+  }
   /**
    * Store a new Project.
    */
