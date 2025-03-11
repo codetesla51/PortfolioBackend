@@ -20,7 +20,7 @@ class ProjectController extends Controller
   }
   public function adminIndex()
   {
-    $projects = Project::latest->get();
+    $projects = Project::latest()->get();
     return response()->json($projects);
   }
   /**
