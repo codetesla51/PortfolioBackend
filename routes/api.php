@@ -13,7 +13,8 @@ Route::middleware([AdminAuthMiddleware::class])->group(function () {
   Route::post("/projects", [ProjectController::class, "store"]);
   Route::put("/projects/{slug}", [ProjectController::class, "update"]);
   Route::delete("/projects/{slug}", [ProjectController::class, "destroy"]);
-  Route::patch('/projects/{slug}/toggle-display', [ProjectController::class, 'toggleDisplayStatus']);
+  Route::patch('/projects/{id}/toggle-display', [ProjectController::class, 'toggleDisplayStatus']);
+
 });
 
 Route::post("/contacts", [ContactController::class, "store"]); 

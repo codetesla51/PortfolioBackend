@@ -94,15 +94,19 @@ class ProjectController extends Controller
     $project->delete();
     return response()->json(["message" => "Project deleted successfully!"]);
   }
-/**
- * Toggle the display status of a project.
- */
-public function toggleDisplayStatus($slug)
-{
-    $project = Project::where("slug", $slug)->firstOrFail();
+  /**
+   * Toggle the display status of a project.
+   */
+  // routes/api.php
 
-    // Toggle the current status
-    $project->update(["display_status" => !$project->display_status]);
+// Controller
+public function toggleDisplayStatus($id)
+{
+    $project = Project::findOrFail($id);
+
+    // Toggle the display_status
+    $project->display_status = !$project->display_status;
+    $project->save();
 
     return response()->json([
         "message" => "Display status toggled successfully!",
