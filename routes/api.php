@@ -13,15 +13,17 @@ Route::middleware([AdminAuthMiddleware::class])->group(function () {
   Route::post("/projects", [ProjectController::class, "store"]);
   Route::put("/projects/{slug}", [ProjectController::class, "update"]);
   Route::delete("/projects/{slug}", [ProjectController::class, "destroy"]);
-  Route::patch('/projects/{id}/toggle-display', [ProjectController::class, 'toggleDisplayStatus']);
-
+  Route::put("/projects/{id}/toggle-display", [
+    ProjectController::class,
+    "toggleDisplayStatus",
+  ]);
 });
 
-Route::post("/contacts", [ContactController::class, "store"]); 
+Route::post("/contacts", [ContactController::class, "store"]);
 Route::middleware([AdminAuthMiddleware::class])->group(function () {
   Route::get("/contacts", [ContactController::class, "index"]);
   Route::get("/contacts/{id}", [ContactController::class, "show"]);
-  Route::put("/contacts/{id}", [ContactController::class, "update"]); 
+  Route::put("/contacts/{id}", [ContactController::class, "update"]);
   Route::delete("/contacts/{id}", [ContactController::class, "destroy"]);
 });
 
