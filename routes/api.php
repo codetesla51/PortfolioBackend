@@ -9,16 +9,14 @@ use App\Http\Middleware\AdminAuthMiddleware;
 Route::get("/projects", [ProjectController::class, "index"]);
 Route::get("/projects/{slug}", [ProjectController::class, "show"]);
 Route::get("/admin/projects", [ProjectController::class, "adminIndex"]);
-
-// Protected routes for projects (POST, PUT, DELETE)
 Route::middleware([AdminAuthMiddleware::class])->group(function () {
   Route::post("/projects", [ProjectController::class, "store"]);
   Route::put("/projects/{slug}", [ProjectController::class, "update"]);
   Route::delete("/projects/{slug}", [ProjectController::class, "destroy"]);
+  Route::patch('/projects/{slug}/toggle-display', [ProjectController::class, 'toggleDisplayStatus']);
 });
 
-// Contact routes
-Route::post("/contacts", [ContactController::class, "store"]); // Public
+Route::post("/contacts", [ContactController::class, "store"]); 
 Route::middleware([AdminAuthMiddleware::class])->group(function () {
   Route::get("/contacts", [ContactController::class, "index"]);
   Route::get("/contacts/{id}", [ContactController::class, "show"]);
