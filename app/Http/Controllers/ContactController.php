@@ -62,12 +62,20 @@ class ContactController extends Controller
   public function update($id)
   {
     $contact = Contact::findOrFail($id);
-    $contact->update(["is_read" => true]);
+    $contact->is_read = !$contact->is_read;
+    $saved = $contact->save();
+    if ($saved) {
+      return response()->json([
+        "message" => "Contact marked as read",
+        "data" => $contact,
+      ]);
+    }
+    else{
+            return response()->json([
+        "message" => "Contact not marked as read",
+      ]);
 
-    return response()->json([
-      "message" => "Contact marked as read",
-      "data" => $contact,
-    ]);
+    }
   }
 
   /**
